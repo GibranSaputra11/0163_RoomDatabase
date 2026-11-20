@@ -25,7 +25,12 @@ class EditViewModel(
                 uiStateSiswa = repositoriSiswa.getSiswaStream(idSiswa)
                     .filterNotNull()
                     .first()
-                    .toUIStateSiswa()
+                    .toUIStateSiswa(true)
             }
         }
+
+    fun updateUiState(detailSiswa: DetailSiswa){
+        uiStateSiswa =
+            UIStateSiswa(detailSiswa = detailSiswa, isEntryValid = validasiInput(detailSiswa))
+    }
 }
