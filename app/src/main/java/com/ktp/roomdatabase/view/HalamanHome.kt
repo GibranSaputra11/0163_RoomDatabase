@@ -1,5 +1,6 @@
 package com.ktp.roomdatabase.view
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -121,6 +122,7 @@ fun ListSiswa(
         items(items = itemSiswa, key = { it.id }) { person ->
             DataSiswa(
                 siswa = person,
+                onSiswaClick = { onSiswaClick(person) },
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_small))
             )
         }
@@ -130,10 +132,11 @@ fun ListSiswa(
 @Composable
 fun DataSiswa(
     siswa: Siswa,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onSiswaClick: (Siswa) -> Unit = {}
 ) {
     Card(
-        modifier = modifier,
+        modifier = modifier.clickable { onSiswaClick(siswa) },
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(

@@ -75,6 +75,11 @@ fun HostNavigasi(
                 }
             )
         }
+        composable(DestinasiEntry.route) {
+            EntrySiswaScreen(
+                navigateBack = { navController.popBackStack() }
+            )
+        }
         // Edit 2: tambahkan 2 composable route
         composable(
             route = DestinasiDetailSiswa.routeWithArgs,
