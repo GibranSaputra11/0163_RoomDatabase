@@ -12,12 +12,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.ktp.roomdatabase.R
+import com.ktp.roomdatabase.view.DetailSiswaScreen
+import com.ktp.roomdatabase.view.EditSiswaScreen
 import com.ktp.roomdatabase.view.EntrySiswaScreen
 import com.ktp.roomdatabase.view.HomeScreen
+import com.ktp.roomdatabase.view.route.DestinasiDetailSiswa
+import com.ktp.roomdatabase.view.route.DestinasiDetailSiswa.itemIdArg
+import com.ktp.roomdatabase.view.route.DestinasiEditSiswa
 
 @Composable
 fun SiswaApp(navController: NavHostController= rememberNavController()) {
@@ -61,12 +68,31 @@ fun HostNavigasi(
     ) {
         composable(DestinasiHome.route) {
             HomeScreen(
-                navigateToItemEntry = { navController.navigate(DestinasiEntry.route) }
+                navigateToItemEntry = { navController.navigate(DestinasiEntry.route) },
+                // edit 1 Tambahan paramter navigate ToItemUpdate
+                navigateToItemUpdate = { id ->
+                    navController.navigate("${DestinasiDetailSiswa.route}/$id")
+                }
             )
         }
-        composable(DestinasiEntry.route) {
-            EntrySiswaScreen(
+        // Edit 2: tambahkan 2 composable route
+        composable(
+            route = DestinasiDetailSiswa.routeWithArgs,
+            arguments = listOf(navArgument(itemIdArg) {
+                type = NavType.IntType
+            })
+        ) {
+            DetailSiswaScreen(
+                navigateToEditItem = { navController.navigate("${DestinasiEditSiswa.route}/$it")},
                 navigateBack = { navController.popBackStack() }
+            )
+        }
+        composable(route = DestinasiEditSiswa.routeWithArgs,
+            arguments = listOf(navArgument(DestinasiEditSiswa.itemIdArg){
+                type = NavType.IntType})){
+            EditSiswaScreen(
+                navigateBack = { navController.popBackStack() },
+                onNavigateUp = { navController.navigateUp() }
             )
         }
     }
